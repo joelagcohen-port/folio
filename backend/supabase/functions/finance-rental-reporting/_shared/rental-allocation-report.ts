@@ -1,0 +1,67 @@
+import { buildRentalReport, buildRentalCsv, validateMortgageSplit } from './rental-reporting.ts';
+import type { RentalReportInput, RentalReport, RentalTransaction, RentalClassification, RentalReportCategory } from './rental-reporting.ts';
+export type ChildEvidence = { allocation_id: string; amount_cents: number; classification: RentalClassification | null };
+export type ParentEvidence = { transaction_id: string; split_status: 'passthrough'|'available'|'unavailable'; allocation_revision?: string; parent_facts?: Record<string,unknown>; children: ChildEvidence[] };
+const money = (n: number) => Math.round(n * 100) / 100;
+function mergeBuckets(rows: RentalReportCategory[][]) {
+ const map = new Map<string, RentalReportCategory>();
+ for (const row of rows.flat()) { const old = map.get(row.key); if (!old) map.set(row.key, {...row,transaction_ids:[...new Set(row.transaction_ids)]}); else { old.amount=money(old.amount+row.amount);old.transaction_ids=[...new Set([...old.transaction_ids,...row.transaction_ids])]; } }
+ return [...map.values()].sort((a,b)=>Math.abs(b.amount)-Math.abs(a.amount)||a.key.localeCompare(b.key));
+}
+/** Complete supplied source coverage is mandatory; a missing child source never falls back to parent treatment. */
+export function buildAllocationAwareRentalReport(input: RentalReportInput, evidence: ParentEvidence[]): RentalReport {
+ const byId=new Map<string,ParentEvidence>();for(const e of evidence){if(byId.has(e.transaction_id))throw Error('Duplicate Rental allocation evidence');byId.set(e.transaction_id,e);}
+ const seen=new Map<string,string>(),parents=new Map<string,RentalTransaction>(),internal=new Map<string,{parent:RentalTransaction;child:ChildEvidence;component?:{component:string;category:string|null;amount:number}}>(),transactions:RentalTransaction[]=[],classifications:RentalClassification[]=[];
+ const key=(tx:string,id:string)=>JSON.stringify(['rental-allocation',tx,id]);
+ for(const parent of input.transactions){if(seen.has(parent.transaction_id)){if(seen.get(parent.transaction_id)!==JSON.stringify(parent))throw Error('Conflicting duplicate Rental parent');continue;}seen.set(parent.transaction_id,JSON.stringify(parent));parents.set(parent.transaction_id,parent);const e=byId.get(parent.transaction_id);if(!e)throw Error('Rental allocation coverage unavailable');
+  if(!e.parent_facts||Object.entries(e.parent_facts).some(([field,value])=>JSON.stringify(value??null)!==JSON.stringify((parent as unknown as Record<string,unknown>)[field]??null)))throw Error('Rental parent source changed');
+  if(e.split_status==='passthrough'){if(e.children.length)throw Error('Invalid passthrough allocation');transactions.push(parent);classifications.push(...input.classifications.filter(c=>c.transaction_id===parent.transaction_id).map(c=>(c as any).deposit_received_allocation_id?{...c,deposit_received_transaction_id:key(c.deposit_received_transaction_id!,(c as any).deposit_received_allocation_id)}:c));continue;}
+  if(e.split_status!=='available'||!Array.isArray(e.children)||e.children.length<2||e.children.length>40||parent.iso_currency_code!=='USD'||parent.pending!==false||!Number.isFinite(parent.amount)||parent.amount===0||Math.abs(parent.amount*100-Math.round(parent.amount*100))>1e-6)throw Error('Rental allocation unavailable');
+  const ids=new Set<string>();let sum=0;
+  for(const child of e.children){if(typeof child.allocation_id!=='string'||!child.allocation_id||ids.has(child.allocation_id)||!Number.isSafeInteger(child.amount_cents)||child.amount_cents!==0&&Math.sign(child.amount_cents)!==Math.sign(parent.amount))throw Error('Invalid Rental child cents');ids.add(child.allocation_id);sum+=child.amount_cents;if(!Number.isSafeInteger(sum))throw Error('Rental amount overflow');
+   const c=child.classification as (RentalClassification&{deposit_received_allocation_id?:string})|null;if(c&&(c.household_id!==input.household_id||c.transaction_id!==parent.transaction_id||typeof c.reviewed!=='boolean'))throw Error('Rental classification identity mismatch');
+   if(c?.treatment==='mortgage_payment'&&child.amount_cents<0){const checked=validateMortgageSplit(c.mortgage_split,-child.amount_cents/100,c.reviewed);if(!checked.valid||!checked.complete||!c.reviewed)throw Error('Reviewed exact mortgage reversal required');for(const component of checked.allocations){const id=key(parent.transaction_id,child.allocation_id+':'+component.component);internal.set(id,{parent,child,component:{...component,amount:-component.amount}});transactions.push({...parent,transaction_id:id,amount:-component.amount,refund_relationship_type:null,refund_original_transaction_id:null,pending_transaction_id:null});const expense=component.component==='interest'||component.component==='fees';classifications.push({household_id:input.household_id,transaction_id:id,treatment:expense?'operating_expense':component.component==='principal'?'mortgage_principal':'transfer',category:expense?component.category:component.component==='principal'?'mortgage_principal':'transfer',reviewed:true});}continue;}
+   const id=key(parent.transaction_id,child.allocation_id);internal.set(id,{parent,child});transactions.push({...parent,transaction_id:id,amount:child.amount_cents/100,refund_relationship_type:null,refund_original_transaction_id:null,pending_transaction_id:null});
+   if(c){if(c.treatment==='security_deposit_returned'&&!c.deposit_received_transaction_id)throw Error('Explicit receipt allocation required');classifications.push({...c,transaction_id:id,...(c.deposit_received_allocation_id?{deposit_received_transaction_id:key(c.deposit_received_transaction_id!,c.deposit_received_allocation_id)}:{})});}
+  }
+  if(sum!==Math.round(parent.amount*100))throw Error('Rental children do not reconcile to bank parent');
+ }
+ const report=buildRentalReport({...input,transactions,classifications});if(!internal.size)return report;
+ const bankId=(id:string)=>internal.get(id)?.parent.transaction_id||id;
+ // The native engine uses private allocation keys for linked lifecycle math only. Public identities remain bank IDs plus allocation IDs.
+ const remap=(value:any):any=>Array.isArray(value)?value.map(remap):value&&typeof value==='object'?Object.fromEntries(Object.entries(value).map(([field,v])=>[field,field==='transaction_ids'&&Array.isArray(v)?[...new Set(v.map(bankId))]:field==='transaction_id'&&typeof v==='string'?bankId(v):remap(v)])):value;
+ const result=remap(report) as RentalReport,rows=new Map<string,RentalTransaction>();
+ for(const row of report.transactions){const entry=internal.get(row.transaction_id);if(!entry){const c=input.classifications.find(c=>c.transaction_id===row.transaction_id) as any;rows.set(row.transaction_id,{...row,deposit_received_transaction_id:c?.deposit_received_transaction_id??row.deposit_received_transaction_id,deposit_received_allocation_id:c?.deposit_received_allocation_id??null});continue;}const id=entry.parent.transaction_id;let aggregate=rows.get(id);if(!aggregate){aggregate={...entry.parent,rental_treatment:'split',rental_category:'split',rental_reviewed:true,rental_contributions:{pnl_income:0,pnl_expense:0,cash_flow:0,tax_income:0,tax_expense:0,tax_special:0},rental_allocations:[],allocation_revision:byId.get(id)?.allocation_revision};rows.set(id,aggregate);}
+  for(const field of ['pnl_income','pnl_expense','cash_flow','tax_income','tax_expense','tax_special'] as const)aggregate.rental_contributions![field]=money(aggregate.rental_contributions![field]+(row.rental_contributions?.[field]||0));
+  if(entry.component){let childRow=(aggregate.rental_allocations as any[]).find(c=>c.allocation_id===entry.child.allocation_id);if(!childRow){childRow={...entry.child,rental_contributions:{pnl_income:0,pnl_expense:0,cash_flow:0,tax_income:0,tax_expense:0,tax_special:0},rental_mortgage_split:entry.child.classification?.mortgage_split,rental_mortgage_allocations:[]};(aggregate.rental_allocations as any[]).push(childRow);}childRow.rental_mortgage_allocations.push(entry.component);for(const field of ['pnl_income','pnl_expense','cash_flow','tax_income','tax_expense','tax_special'])childRow.rental_contributions[field]=money(childRow.rental_contributions[field]+((row.rental_contributions as any)?.[field]||0));}
+  else (aggregate.rental_allocations as any[]).push({...entry.child,rental_contributions:row.rental_contributions,rental_mortgage_allocations:row.rental_mortgage_allocations,rental_mortgage_split:row.rental_mortgage_split,rental_recognized_deposit_applications:row.rental_recognized_deposit_applications,rental_tax_deposit_applications:row.rental_tax_deposit_applications});
+  aggregate.rental_reviewed=aggregate.rental_reviewed&&row.rental_reviewed===true;
+ }
+ result.transactions=[...rows.values()];result.review.count=result.review.transaction_ids.length;result.mortgage_review.count=result.mortgage_review.transaction_ids.length;result.tax_summary.mortgage_review.count=result.tax_summary.mortgage_review.transaction_ids.length;
+ const posted=new Set(transactions.filter(t=>!t.pending&&t.effective_transaction_date.startsWith(String(result.tax_summary.tax_year))).map(t=>bankId(t.transaction_id)));result.year_end_readiness.total_posted=posted.size;result.year_end_readiness.unresolved=result.year_end_readiness.transaction_ids.length;result.year_end_readiness.reviewed_percent=posted.size?Math.round((posted.size-result.year_end_readiness.unresolved)/posted.size*100):100;
+ result.pnl_complete=result.pnl_complete&&result.review.count===0;result.tax_summary.complete=result.tax_summary.complete&&result.year_end_readiness.unresolved===0;
+ // Deposit breakdown rows retain their exact allocation identity for correction/navigation.
+ for(const field of ['opening_breakdown','received_breakdown','returned_breakdown','applied_breakdown','ending_breakdown'] as const)result.security_deposits[field]=report.security_deposits[field].map(row=>({...row,transaction_id:bankId(row.transaction_id),...(internal.has(row.transaction_id)?{allocation_id:internal.get(row.transaction_id)!.child.allocation_id}:{})}));
+ return result;
+}
+/** Bank row has cash once; explicit allocation rows carry reporting evidence with zero bank/cash duplication. */
+export function buildAllocationAwareRentalCsv(report: RentalReport, accountNames:Record<string,string>={}) {
+ if(!report.transactions.some(tx=>tx.rental_allocations))return buildRentalCsv(report,accountNames);
+ const exportReport={...report,transactions:report.transactions.map(tx=>tx.rental_allocations?{...tx,rental_contributions:{...tx.rental_contributions!,pnl_income:0,pnl_expense:0,tax_income:0,tax_expense:0,tax_special:0}}:tx)};
+ const parsed=parseRentalCsv(buildRentalCsv(exportReport,accountNames));
+ const quote=(v:unknown)=>{let s=String(v??'');if(typeof v==='string'&&/^[=+@\-\t\r]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};
+ const original=parsed.map((row,index)=>[...row,index===0?'allocation_id':''].map(value=>'"'+value.replace(/"/g,'""')+'"').join(',')).join('\r\n');
+ const rows:string[]=[];
+ for(const parent of report.transactions){const children=parent.rental_allocations as (ChildEvidence&{rental_contributions?:RentalTransaction['rental_contributions']})[]|undefined;if(!children)continue;
+  for(const child of children){const c=child.classification,details=child as any,inRange=parent.effective_transaction_date>=report.period.start_date&&parent.effective_transaction_date<=report.period.end_date;
+   const row=(type:string,date:string,description:string,amount:number,category:string,income:number,expense:number,reason='',component='')=>[type,date,parent.effective_merchant_name??parent.name??'',description,amount,accountNames[parent.canonical_account_id]??'',c?.treatment??'needs_review',category,parent.effective_category??'',c?.notes??'',parent.transaction_id,'true',0,0,income,expense,reason,component,c?.mortgage_split?.source?.type??'',c?.mortgage_split?.source?.reference??'',child.allocation_id].map(quote).join(',');
+   if(inRange)rows.push(row('reporting_allocation',parent.effective_transaction_date,`Allocation ${child.allocation_id}`,child.amount_cents/100,c?.category??'',c?.treatment?.startsWith('security_deposit')?0:child.rental_contributions?.pnl_income??0,c?.treatment==='mortgage_payment'?0:child.rental_contributions?.pnl_expense??0));
+   if(inRange)for(const component of details.rental_mortgage_allocations||[])rows.push(row('mortgage_allocation',parent.effective_transaction_date,`Mortgage ${component.component}`,component.amount,component.category||component.component,0,component.component==='interest'||component.component==='fees'?component.amount:0,'',component.component));
+   for(const app of details.rental_recognized_deposit_applications||[])rows.push(row('deposit_application',app.date,`Security deposit applied: ${app.reason}`,app.amount,app.category,app.amount,0,app.reason));
+  }
+ }
+ return rows.length?original+'\r\n'+rows.join('\r\n'):original;
+}
+
+function parseRentalCsv(text:string):string[][] {const rows:string[][]=[];let row:string[]=[],value='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i];if(quoted){if(c==='"'&&text[i+1]==='"'){value+='"';i++;}else if(c==='"')quoted=false;else value+=c;}else if(c==='"')quoted=true;else if(c===','){row.push(value);value='';}else if(c==='\r'||c==='\n'){if(c==='\r'&&text[i+1]==='\n')i++;row.push(value);rows.push(row);row=[];value='';}else value+=c;}if(quoted)throw Error('Invalid native CSV');if(row.length||value){row.push(value);rows.push(row);}return rows;}
+
