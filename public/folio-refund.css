@@ -1,0 +1,74 @@
+#folio-dashboard-production .folio-refund-summary{color:var(--folio-accent);border-color:color-mix(in srgb,var(--folio-accent) 24%,var(--folio-line));}
+#folio-dashboard-production .folio-refund-summary strong{color:var(--folio-accent);}
+#folio-dashboard-production .folio-refund-context{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px 12px;margin:10px 0 14px;padding:14px;border:1px solid var(--folio-line);border-radius:14px;background:var(--folio-surface-2);}
+#folio-dashboard-production .folio-refund-context strong{grid-column:1;min-width:0;overflow-wrap:break-word;word-break:normal;}
+#folio-dashboard-production .folio-refund-context .folio-refund-amount{grid-column:2;white-space:nowrap;}
+#folio-dashboard-production .folio-refund-context small{grid-column:1/-1;}
+#folio-dashboard-production .folio-refund-amount{flex:none;color:var(--folio-accent);font-size:20px;font-weight:750;font-variant-numeric:tabular-nums;}
+#folio-dashboard-production .folio-refund-match-copy{margin:10px 0 14px;color:var(--folio-muted);line-height:1.45;}
+#folio-dashboard-production .folio-refund-purchase-label,#folio-dashboard-production .folio-refund-category-label{display:grid;gap:6px;margin:12px 0;font-size:14px;font-weight:650;}
+#folio-dashboard-production .folio-refund-purchase,#folio-dashboard-production .folio-refund-category{box-sizing:border-box;width:100%;min-width:0;min-height:46px;padding:10px 38px 10px 12px;border:1px solid var(--folio-line);border-radius:10px;background:var(--folio-surface);color:var(--folio-text);font:inherit;font-size:16px;}
+#folio-dashboard-production .folio-refund-actions{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin-top:14px;}
+#folio-dashboard-production .folio-refund-actions button{min-width:0;min-height:46px;padding:8px 10px;overflow-wrap:anywhere;}
+#folio-dashboard-production .folio-refund-apply{grid-column:1/-1;width:100%;background:var(--folio-accent);border-color:var(--folio-accent);color:#fff;}
+#folio-dashboard-production .folio-refund-message{min-height:18px;}
+#folio-dashboard-production .folio-refund-preferences{display:grid;gap:12px;}
+#folio-dashboard-production .folio-refund-preferences h3{margin:0;}
+#folio-dashboard-production .folio-refund-preferences p{margin:-8px 0 0;}
+#folio-dashboard-production .folio-refund-unmatched-label{display:grid;gap:6px;}
+#folio-dashboard-production .folio-refund-unmatched{box-sizing:border-box;width:100%;min-height:44px;padding:8px 12px;border:1px solid var(--folio-line);border-radius:10px;background:var(--folio-surface);color:var(--folio-text);font:inherit;font-size:16px;}
+#folio-dashboard-production .folio-refund-settings-status{min-height:1.2em;}
+@media(max-width:600px){#folio-dashboard-production .folio-refund-actions{grid-template-columns:1fr;}#folio-dashboard-production .folio-refund-apply{grid-column:auto;}#folio-dashboard-production .folio-refund-dialog{padding-bottom:calc(18px + env(safe-area-inset-bottom,0px));}}
+#folio-dashboard-production .folio-refund-summary{display:grid;grid-template-columns:minmax(0,1fr) 18px;align-items:center;gap:10px;width:100%;min-height:60px;margin:8px 0;padding:8px 2px;border:0;border-top:1px solid color-mix(in srgb,var(--folio-accent) 24%,var(--folio-line));border-bottom:1px solid color-mix(in srgb,var(--folio-accent) 24%,var(--folio-line));border-radius:0;background:transparent;text-align:left;font:inherit;cursor:pointer;}
+#folio-dashboard-production .folio-refund-summary-copy{display:grid;gap:2px;min-width:0;}
+#folio-dashboard-production .folio-refund-summary-copy strong{font-size:14px;}
+#folio-dashboard-production .folio-refund-summary-copy>span{font-size:13px;overflow-wrap:anywhere;}
+#folio-dashboard-production .folio-refund-dialog{width:min(560px,calc(100% - 28px));max-width:none;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 16px);overflow-y:auto;overscroll-behavior:contain;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));box-sizing:border-box;color:var(--folio-text);background:var(--folio-surface);border:1px solid var(--folio-line);border-radius:20px;}
+#folio-dashboard-production .folio-refund-dialog::backdrop{background:rgba(0,0,0,.62);}
+#folio-dashboard-production .folio-refund-sheet-head{position:sticky;top:-18px;z-index:1;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:-18px -18px 12px;padding:18px;background:var(--folio-surface);border-bottom:1px solid var(--folio-line);}
+#folio-dashboard-production .folio-refund-sheet-head h2{margin:0;font-size:20px;}
+#folio-dashboard-production .folio-refund-sheet-head p{margin:4px 0 0;color:var(--folio-muted);font-size:13px;}
+#folio-dashboard-production .folio-refund-sheet-body{min-width:0;}
+@media(max-width:600px){#folio-dashboard-production .folio-refund-dialog{margin:auto 0 0;width:100%;max-height:calc(100dvh - env(safe-area-inset-top,0px) - 8px);border-radius:22px 22px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px));}#folio-dashboard-production .folio-refund-sheet-head{top:-16px;margin:-16px -16px 12px;padding:16px;}}
+
+#folio-dashboard-production .folio-refund-chevron{font-size:24px;line-height:1;text-align:center;color:var(--folio-accent);}
+
+#folio-dashboard-production .folio-refund-purchase-search{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:8px;margin-top:10px;}
+#folio-dashboard-production .folio-refund-purchase-search label{display:grid;gap:5px;font-size:14px;font-weight:650;}
+#folio-dashboard-production .folio-refund-purchase-search input{box-sizing:border-box;width:100%;min-width:0;min-height:44px;padding:9px 12px;border:1px solid var(--folio-line);border-radius:10px;background:var(--folio-surface);color:var(--folio-text);font:inherit;font-size:16px;}
+#folio-dashboard-production .folio-refund-match-summary{display:grid;gap:3px;padding:12px 14px;border:1px solid var(--folio-line);border-radius:12px;background:var(--folio-surface-2);line-height:1.35;}
+#folio-dashboard-production .folio-refund-match-summary strong{font-size:14px;}
+#folio-dashboard-production .folio-refund-linked-list{display:grid;gap:8px;margin:12px 0;}
+#folio-dashboard-production .folio-refund-linked-item{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;min-height:48px;padding:8px 10px;border:1px solid var(--folio-line);border-radius:10px;background:var(--folio-surface-2);color:var(--folio-text);font:inherit;text-align:left;cursor:pointer;}
+#folio-dashboard-production .folio-refund-linked-item span{font-size:13px;overflow-wrap:anywhere;}
+#folio-dashboard-production .folio-refund-linked-item strong{color:var(--folio-accent);font-variant-numeric:tabular-nums;}
+#folio-dashboard-production .folio-refund-actions .folio-refund-not,#folio-dashboard-production .folio-refund-actions .folio-refund-review,#folio-dashboard-production .folio-refund-choose-category,#folio-dashboard-production .folio-refund-change-purchase,#folio-dashboard-production .folio-refund-search-button{background:var(--folio-surface);border:1px solid var(--folio-line);color:var(--folio-text);}
+#folio-dashboard-production .folio-refund-actions .folio-refund-apply{background:var(--folio-accent);border-color:var(--folio-accent);color:#fff;}
+
+#folio-dashboard-production .folio-refund-dialog [hidden]{display:none!important;}
+#folio-dashboard-production .folio2-refund-review-dialog{width:min(720px,calc(100% - 28px));max-height:calc(100dvh - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px) - 16px);}
+#folio-dashboard-production .folio2-refund-review-dialog h3{margin:18px 0 10px;font-size:17px;}
+#folio-dashboard-production .folio2-refund-review-dialog h4{margin:0 0 8px;font-size:15px;}
+#folio-dashboard-production .folio-refund-recommendation{margin:10px 0;padding:14px;border-radius:12px;background:var(--folio-surface-2);}
+#folio-dashboard-production .folio-refund-recommendation p{margin:5px 0 0;color:var(--folio-muted);font-size:14px;line-height:1.4;}
+#folio-dashboard-production .folio2-refund-decisions{display:grid;gap:8px;margin:0;padding:0;border:0;}
+#folio-dashboard-production .folio2-refund-decisions label{display:flex;align-items:flex-start;gap:12px;min-height:54px;padding:12px;border:1px solid var(--folio-line);border-radius:12px;cursor:pointer;}
+#folio-dashboard-production .folio2-refund-decisions input{width:20px;height:20px;min-height:20px;margin:1px 0 0;accent-color:var(--folio-accent);}
+#folio-dashboard-production .folio2-refund-decisions span{display:grid;gap:3px;}
+#folio-dashboard-production .folio2-refund-decisions small,#folio-dashboard-production .folio2-refund-evidence p{color:var(--folio-muted);line-height:1.4;}
+#folio-dashboard-production .folio2-refund-purchase{margin:16px 0;padding:14px;border:1px solid var(--folio-line);border-radius:14px;}
+#folio-dashboard-production .folio2-refund-candidate-list,#folio-dashboard-production .folio2-refund-search-results{display:grid;gap:7px;}
+#folio-dashboard-production .folio2-refund-candidate{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;width:100%;min-height:54px;padding:10px;border:1px solid var(--folio-line);border-radius:11px;background:var(--folio-surface-2);color:var(--folio-text);text-align:left;font:inherit;cursor:pointer;}
+#folio-dashboard-production .folio2-refund-candidate.is-selected{border-color:var(--folio-accent);box-shadow:0 0 0 1px var(--folio-accent);}
+#folio-dashboard-production .folio2-refund-candidate span{display:grid;gap:3px;min-width:0;}
+#folio-dashboard-production .folio2-refund-candidate small{color:var(--folio-muted);overflow-wrap:anywhere;}
+#folio-dashboard-production .folio2-refund-search{display:grid;gap:8px;margin-top:12px;}
+#folio-dashboard-production .folio2-refund-search label{display:grid;gap:5px;font-weight:600;}
+#folio-dashboard-production .folio2-refund-search input{box-sizing:border-box;width:100%;min-height:44px;padding:9px 12px;border:1px solid var(--folio-line);border-radius:10px;background:var(--folio-surface);color:var(--folio-text);font:inherit;font-size:16px;}
+#folio-dashboard-production .folio2-refund-evidence{margin:12px 0;padding:12px;border-top:1px solid var(--folio-line);border-bottom:1px solid var(--folio-line);}
+#folio-dashboard-production .folio2-refund-evidence summary{min-height:32px;cursor:pointer;font-weight:600;}
+#folio-dashboard-production .folio2-refund-evidence p{margin:8px 0 0;font-size:13px;}
+#folio-dashboard-production .folio2-refund-impact{padding:14px;border:1px solid var(--folio-line);border-radius:12px;background:var(--folio-surface-2);line-height:1.45;}
+#folio-dashboard-production .folio2-refund-impact p{margin:8px 0 0;color:var(--folio-muted);}
+#folio-dashboard-production .folio-visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+@media(max-width:600px){#folio-dashboard-production .folio2-refund-review-dialog{width:100%;max-height:calc(100dvh - env(safe-area-inset-top,0px));}}

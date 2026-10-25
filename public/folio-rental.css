@@ -1,0 +1,99 @@
+#folio-dashboard-production .rental-toolbar{display:grid;gap:12px;padding:14px;margin-bottom:14px}
+#folio-dashboard-production .rental-toolbar label{display:grid;gap:6px;font-size:13px;font-weight:600}
+#folio-dashboard-production .rental-toolbar select,#folio-dashboard-production .rental-toolbar input{width:100%;min-height:42px;padding:9px 12px;border:1px solid var(--folio-line);border-radius:12px;background:var(--folio-surface-2);color:var(--folio-text);font:inherit}
+#folio-dashboard-production .rental-period-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px;padding:4px;border-radius:14px;background:var(--folio-surface-2)}
+#folio-dashboard-production .rental-period-tabs button{min-height:38px;border:0;border-radius:10px;background:transparent;color:var(--folio-muted);font:inherit}
+#folio-dashboard-production .rental-period-tabs button[aria-pressed=true]{background:var(--folio-accent);color:#fff}
+#folio-dashboard-production .rental-custom-range:not([hidden]){display:grid;grid-template-columns:1fr 1fr;gap:9px;align-items:end}
+#folio-dashboard-production .rental-custom-apply{grid-column:1/-1}
+#folio-dashboard-production .rental-pending-toggle{display:flex!important;align-items:center;gap:9px;font-weight:500!important}
+#folio-dashboard-production .rental-pending-toggle input{width:18px;min-height:18px;accent-color:var(--folio-accent)}
+#folio-dashboard-production .rental-status{padding:10px 2px}
+#folio-dashboard-production .rental-status[data-error=true]{color:var(--folio-red)}
+#folio-dashboard-production .rental-kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--folio-space-2);margin:10px 0 12px}
+#folio-dashboard-production .rental-kpi{width:100%;border:0;color:var(--folio-text);text-align:left;cursor:pointer}
+#folio-dashboard-production .rental-section{margin:16px 0}
+#folio-dashboard-production .rental-section h3{margin:0 0 8px;font-size:17px}
+#folio-dashboard-production .rental-section-sub{margin:-3px 0 8px;color:var(--folio-muted);font-size:12px}
+#folio-dashboard-production .rental-report-card,#folio-dashboard-production .rental-drill{padding:14px;border-radius:17px}
+#folio-dashboard-production .rental-report-row{display:grid;grid-template-columns:minmax(0,1fr) auto 18px;align-items:center;gap:8px;width:100%;min-height:42px;padding:7px 2px;border:0;border-bottom:1px solid var(--folio-line);background:transparent;color:var(--folio-text);text-align:left;font:inherit}
+#folio-dashboard-production .rental-report-row:last-child{border-bottom:0}
+#folio-dashboard-production .rental-report-row span:first-child{min-width:0;overflow-wrap:anywhere}
+#folio-dashboard-production .rental-report-row strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+#folio-dashboard-production .rental-report-row .rental-chevron{color:var(--folio-muted)}
+#folio-dashboard-production .rental-total-row{font-weight:700;border-top:1px solid var(--folio-line)}
+#folio-dashboard-production .rental-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px;margin:12px 0;border:1px solid var(--folio-line);border-radius:15px;background:var(--folio-surface)}
+#folio-dashboard-production .rental-banner strong{display:block}
+#folio-dashboard-production .rental-banner span{font-size:12px;color:var(--folio-muted)}
+#folio-dashboard-production .rental-banner button{border:0;background:transparent;color:var(--folio-text);font:inherit;font-weight:700;white-space:nowrap}
+#folio-dashboard-production .rental-drill{margin:14px 0}
+#folio-dashboard-production .rental-drill-item{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:8px;padding:11px 2px;border-bottom:1px solid var(--folio-line)}
+#folio-dashboard-production .rental-drill-item:last-child{border-bottom:0}
+#folio-dashboard-production .rental-drill-item small{display:block;color:var(--folio-muted);margin-top:3px}
+#folio-dashboard-production .rental-drill-item button{border:0;background:transparent;color:var(--folio-accent);font:inherit;font-weight:700}
+#folio-dashboard-production .rental-empty{padding:16px;text-align:center;color:var(--folio-muted)}
+#folio-dashboard-production .rental-deposit-note{padding:12px;border-radius:13px;background:color-mix(in srgb,var(--folio-accent) 14%,var(--folio-surface));font-size:12px}
+#folio-dashboard-production .rental-review-count{color:var(--folio-yellow)}
+#folio-dashboard-production .rental-mortgage-fields{margin:12px 0;padding:12px;border:1px solid var(--folio-line);border-radius:12px;background:var(--folio-surface-2)}
+#folio-dashboard-production .rental-classification-editor .rental-mortgage-fields label{display:grid!important;grid-template-columns:minmax(0,1fr);gap:5px;margin:10px 0;font-weight:500}
+#folio-dashboard-production .rental-mortgage-fields input,#folio-dashboard-production .rental-mortgage-fields select,#folio-dashboard-production .rental-mortgage-fields textarea{box-sizing:border-box;width:100%;min-width:0;min-height:40px;padding:9px 10px;border:1px solid var(--folio-line);border-radius:10px;background:var(--folio-surface);color:var(--folio-text);font:inherit}
+#folio-dashboard-production .rental-mortgage-fields textarea{min-height:92px;resize:vertical;font-family:var(--font-mono,monospace);font-size:12px}
+#folio-dashboard-production .rental-mortgage-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+#folio-dashboard-production .rental-mortgage-grid label{min-width:0}
+#folio-dashboard-production .rental-mortgage-csv-preview{min-height:38px;margin:4px 0}
+#folio-dashboard-production .rental-mortgage-total[data-error=true],#folio-dashboard-production .rental-mortgage-csv-status[data-error=true]{color:var(--folio-red)}
+@media(min-width:700px){#folio-dashboard-production .rental-toolbar{grid-template-columns:minmax(240px,1.2fr) minmax(300px,1fr) minmax(180px,.7fr);align-items:end}#folio-dashboard-production .rental-pending-toggle{grid-column:1/-1}}
+#folio-dashboard-production .rental-detail-household-heading{margin:18px 0 8px;font-size:1rem}
+#folio-dashboard-production .rental-classification-editor>label,#folio-dashboard-production .rental-classification-editor .rental-application-fields>label,#folio-dashboard-production .rental-classification-editor .rental-return-fields>label{display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin:12px 0;font-weight:500}
+#folio-dashboard-production .rental-classification-editor .rental-reviewed-label,#folio-dashboard-production .rental-classification-editor .rental-application-remove-wrap{display:flex!important;align-items:center;gap:8px;grid-template-columns:none;margin:12px 0}
+#folio-dashboard-production .rental-classification-editor select,#folio-dashboard-production .rental-classification-editor input:not([type=checkbox]),#folio-dashboard-production .rental-classification-editor textarea{box-sizing:border-box;width:100%;min-width:0;min-height:42px;padding:10px 12px;border:1px solid var(--folio-line);border-radius:10px;background:var(--folio-surface);color:var(--folio-text);font:inherit;font-size:16px}
+#folio-dashboard-production .rental-classification-editor input[type=checkbox]{width:18px;height:18px;flex:0 0 auto}
+#folio-dashboard-production .rental-classification-editor .rental-notes{display:block;min-height:92px;padding:12px;resize:vertical;font-size:16px;line-height:1.45}
+#folio-dashboard-production .rental-classification-editor .rental-notes-label{display:grid;grid-template-columns:minmax(0,1fr);gap:6px}
+#folio-dashboard-production .rental-classification-editor [hidden]{display:none!important}
+#folio-dashboard-production .rental-classification-summary{display:grid;grid-template-columns:minmax(0,1fr) 18px;align-items:center;gap:10px;width:100%;min-height:60px;margin:8px 0;padding:8px 2px;border:0;border-top:1px solid var(--folio-line);border-bottom:1px solid var(--folio-line);border-radius:0;background:transparent;color:var(--folio-text);text-align:left;font:inherit;cursor:pointer}
+#folio-dashboard-production .rental-classification-summary:disabled{opacity:.72;cursor:wait}
+#folio-dashboard-production .rental-classification-summary-copy{display:grid;gap:2px;min-width:0}
+#folio-dashboard-production .rental-classification-summary-copy strong{font-size:14px}
+#folio-dashboard-production .rental-classification-summary-copy>span{font-size:13px;overflow-wrap:anywhere}
+#folio-dashboard-production .rental-classification-summary-copy small{color:var(--folio-muted);font-size:12px}
+#folio-dashboard-production .rental-classification-dialog[open]{display:flex;flex-direction:column}
+#folio-dashboard-production .rental-classification-dialog{top:var(--rental-visual-viewport-top,0px);bottom:calc(100dvh - var(--rental-visual-viewport-bottom,100dvh));width:min(560px,calc(100% - 28px));max-width:none;max-height:calc(var(--rental-visual-viewport-height,100dvh) - env(safe-area-inset-top,0px) - 16px);overflow:hidden;overscroll-behavior:contain;padding:18px 18px calc(18px + env(safe-area-inset-bottom,0px));box-sizing:border-box;color:var(--folio-text);background:var(--folio-surface);border:1px solid var(--folio-line);border-radius:20px}
+#folio-dashboard-production .rental-classification-dialog::backdrop{background:rgba(0,0,0,.62)}
+#folio-dashboard-production .rental-classification-sheet-head{position:relative;flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin:-18px -18px 12px;padding:18px;background:var(--folio-surface);border-bottom:1px solid var(--folio-line)}
+#folio-dashboard-production .rental-classification-sheet-head h2{margin:0;font-size:20px}
+#folio-dashboard-production .rental-classification-sheet-head p{margin:4px 0 0;color:var(--folio-muted);font-size:13px}
+#folio-dashboard-production .rental-classification-sheet-body{flex:1;min-width:0;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#folio-dashboard-production .rental-classification-editor{padding:0;border:0;background:transparent}
+#folio-dashboard-production .rental-classification-editor .rental-classification-save{position:static;z-index:auto;width:100%;min-height:48px;margin-top:12px;padding:10px;background:var(--folio-accent);border-color:var(--folio-accent);color:#fff}
+@media(max-width:600px){#folio-dashboard-production .rental-classification-dialog{top:var(--rental-visual-viewport-top,0px);bottom:auto;height:var(--rental-visual-viewport-height,100dvh);max-height:var(--rental-visual-viewport-height,100dvh);margin:0;width:100%;border-radius:22px 22px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom,0px))}#folio-dashboard-production .rental-classification-sheet-head{margin:-16px -16px 12px;padding:16px}}
+#folio-dashboard-production .rental-classification-sheet-head .rental-classification-close{min-height:40px;background:var(--folio-surface-2);border-color:var(--folio-line);color:var(--folio-text);white-space:nowrap}
+#folio-dashboard-production .rental-classification-editor .rental-classification-save{background:var(--folio-accent);border-color:var(--folio-accent);color:#fff}
+#folio-dashboard-production .rental-detail-household-heading{display:none}
+#folio-dashboard-production .rental-classification-fullscreen[open]{position:fixed;inset:var(--rental-visual-viewport-top,0px) 0 calc(100dvh - var(--rental-visual-viewport-bottom,100dvh) + var(--folio-shell-bottom-obstruction,0px)) 0;width:100%;max-width:none;height:auto;max-height:none;margin:0;padding:0;border:0;border-radius:0;overflow:hidden;box-sizing:border-box}
+#folio-dashboard-production .rental-classification-fullscreen .rental-classification-sheet-head{margin:0;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 12px;align-items:center}
+#folio-dashboard-production .rental-classification-fullscreen .rental-source-summary{flex:none;display:grid;gap:5px;padding:12px 18px 14px;border-bottom:1px solid var(--folio-line);background:var(--folio-surface-2);font-size:13px}
+#folio-dashboard-production .rental-classification-fullscreen .rental-source-summary strong{font-size:15px}
+#folio-dashboard-production .rental-classification-fullscreen .rental-source-summary span,#folio-dashboard-production .rental-classification-fullscreen .rental-source-summary small{color:var(--folio-muted)}
+#folio-dashboard-production .rental-classification-fullscreen .rental-classification-sheet-body{padding:0 18px 18px}
+#folio-dashboard-production .rental-classification-fullscreen .rental-classification-editor{max-width:760px;margin:0 auto}
+#folio-dashboard-production .rental-classification-fullscreen .rental-classification-close{min-width:72px}
+@media(max-width:600px){#folio-dashboard-production .rental-classification-fullscreen[open]{border-radius:0}#folio-dashboard-production .rental-classification-fullscreen .rental-classification-sheet-head{padding:calc(10px + env(safe-area-inset-top,0px)) 16px 10px}#folio-dashboard-production .rental-classification-fullscreen .rental-source-summary{padding:10px 16px 12px}#folio-dashboard-production .rental-classification-fullscreen .rental-classification-sheet-body{padding:0 16px 20px}}
+#folio-dashboard-production .rental-overview-disclosure{margin:12px 0;border:1px solid var(--folio-line);border-radius:16px;background:var(--folio-surface)}
+#folio-dashboard-production .rental-overview-disclosure>summary{display:grid;grid-template-columns:minmax(0,1fr) auto 18px;align-items:center;gap:10px;min-height:64px;padding:12px 14px;list-style:none;cursor:pointer}
+#folio-dashboard-production .rental-overview-disclosure>summary::-webkit-details-marker{display:none}
+#folio-dashboard-production .rental-overview-disclosure>summary>span:first-child{display:grid;gap:3px;min-width:0}
+#folio-dashboard-production .rental-overview-disclosure>summary>span:first-child strong{font-size:15px}
+#folio-dashboard-production .rental-overview-disclosure>summary small{color:var(--folio-muted);font-size:12px;font-weight:400}
+#folio-dashboard-production .rental-overview-disclosure>summary>strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+#folio-dashboard-production .rental-disclosure-body{padding:0 14px 14px}
+#folio-dashboard-production .rental-disclosure-body .rental-report-row{width:100%}
+#folio-dashboard-production .rental-noticed{margin:14px 0;padding:14px;border-radius:16px;background:color-mix(in srgb,var(--folio-accent) 14%,var(--folio-surface))}
+#folio-dashboard-production .rental-noticed>strong{display:block}
+#folio-dashboard-production .rental-noticed p{margin:6px 0;color:var(--folio-muted);font-size:13px}
+#folio-dashboard-production .rental-noticed button{min-height:40px;border:0;background:transparent;color:var(--folio-text);font:inherit;font-weight:700}
+#folio-dashboard-production .rental-hero{display:grid;gap:6px;padding:18px 16px;margin:14px 0;border-radius:18px;background:var(--folio-surface-2)}
+#folio-dashboard-production .rental-hero>span{font-size:11px;font-weight:700;letter-spacing:.06em;color:var(--folio-muted)}
+#folio-dashboard-production .rental-hero>strong{font-size:32px;line-height:1.1;font-variant-numeric:tabular-nums}
+#folio-dashboard-production .rental-hero p{margin:0;color:var(--folio-muted);font-size:14px}
+#folio-dashboard-production .rental-hero small{color:var(--folio-muted);font-size:12px;line-height:1.4}
