@@ -1,0 +1,156 @@
+{
+  "format": "folio-edge-function-source-inventory/v1",
+  "deployment_ready": false,
+  "note": "Inventory only; deployment state, JWT policies, and database compatibility must be independently verified. No project identifiers or deployment settings are included.",
+  "functions": [
+    {
+      "slug": "finance-account-management",
+      "entrypoint": "backend/supabase/functions/finance-account-management/finance-account-management/index.ts",
+      "source": "read-only-current-source-snapshot",
+      "environment": [
+        "PLAID_CLIENT_ID",
+        "PLAID_ENV",
+        "PLAID_ENVIRONMENT",
+        "PLAID_REDIRECT_URI",
+        "PLAID_SECRET",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "finance-budget-management",
+      "entrypoint": "backend/supabase/functions/finance-budget-management/finance-budget-management/index.ts",
+      "source": "read-only-current-source-snapshot",
+      "environment": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "finance-budget-progress",
+      "entrypoint": "backend/supabase/functions/finance-budget-progress/finance-budget-progress/index.ts",
+      "source": "read-only-current-source-snapshot",
+      "environment": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "finance-rental-reporting",
+      "entrypoint": "backend/supabase/functions/finance-rental-reporting/finance-rental-reporting/index.ts",
+      "source": "read-only-current-source-snapshot",
+      "environment": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "finance-transaction-management",
+      "entrypoint": "backend/supabase/functions/finance-transaction-management/finance-transaction-management/index.ts",
+      "source": "read-only-current-source-snapshot",
+      "environment": [
+        "FOLIO2_SPLIT_SUCCESSOR_ENABLED",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "plaid-categorization-rules",
+      "entrypoint": "backend/supabase/functions/plaid-categorization-rules/plaid-categorization-rules/index.ts",
+      "source": "read-only-current-source-snapshot",
+      "environment": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "plaid-webhook",
+      "entrypoint": "backend/supabase/functions/plaid-webhook/plaid-webhook/index.ts",
+      "source": "read-only-current-source-snapshot",
+      "environment": [
+        "PLAID_CLIENT_ID",
+        "PLAID_SECRET",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "finance-agent-schedule",
+      "entrypoint": "backend/supabase/functions/finance-agent-schedule/finance-agent-schedule/finance-live-data/schedule.ts",
+      "source": "reviewed-source-candidate-snapshot",
+      "environment": [
+        "FOLIO2_RECURRING_LIFECYCLE_ENABLED",
+        "FOLIO_ASSISTANT_VERIFY_KEYS_JSON",
+        "FOLIO_PUBLIC_URL",
+        "MASSIVE_API_KEY",
+        "PLAID_CLIENT_ID",
+        "PLAID_MCP_SHARED_SECRET",
+        "PLAID_SECRET",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "finance-live-data",
+      "entrypoint": "backend/supabase/functions/finance-live-data/finance-live-data/serve.ts",
+      "source": "reviewed-source-candidate-snapshot",
+      "environment": [
+        "FOLIO2_RECURRING_LIFECYCLE_ENABLED",
+        "FOLIO_ASSISTANT_VERIFY_KEYS_JSON",
+        "MASSIVE_API_KEY",
+        "PLAID_CLIENT_ID",
+        "PLAID_MCP_SHARED_SECRET",
+        "PLAID_SECRET",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "finance-recurring-refresh",
+      "entrypoint": "backend/supabase/functions/finance-recurring-refresh/finance-recurring-refresh/index.ts",
+      "source": "reviewed-source-candidate-snapshot",
+      "environment": [
+        "FOLIO2_RECURRING_LIFECYCLE_ENABLED",
+        "FOLIO_ASSISTANT_VERIFY_KEYS_JSON",
+        "MASSIVE_API_KEY",
+        "PLAID_CLIENT_ID",
+        "PLAID_MCP_SHARED_SECRET",
+        "PLAID_SECRET",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "plaid-sync-transactions",
+      "entrypoint": "backend/supabase/functions/plaid-sync-transactions/plaid-sync-transactions/index.ts",
+      "source": "reviewed-source-candidate-snapshot",
+      "environment": [
+        "PLAID_CLIENT_ID",
+        "PLAID_MCP_SHARED_SECRET",
+        "PLAID_SECRET",
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    },
+    {
+      "slug": "plaid-transaction-query",
+      "entrypoint": "backend/supabase/functions/plaid-transaction-query/plaid-transaction-query/index.ts",
+      "source": "reviewed-source-candidate-snapshot",
+      "environment": [
+        "SUPABASE_ANON_KEY",
+        "SUPABASE_SERVICE_ROLE_KEY",
+        "SUPABASE_URL"
+      ]
+    }
+  ]
+}
